@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "321-frameworks-spring-boot-testing-unit-tests": {
+      "source": "jabrena/plinth",
+      "sourceType": "github",
+      "skillPath": "skills/321-frameworks-spring-boot-testing-unit-tests/SKILL.md",
+      "computedHash": "4caf3916ce389420408655e1e9cbcd94fc494f436527a0d6501320f569740631"
+    },
+    "create-spring-boot-java-project": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/create-spring-boot-java-project/SKILL.md",
+      "computedHash": "f295d4ddc256642e850e7d7a40526ed10aad2801e0c202e0b4c78506c52f4461"
+    },
+    "java-springboot": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/java-springboot/SKILL.md",
+      "computedHash": "f1b9c6b1277178fc33e5a612761c1cd1cf6ab5f946d05d69d52026d142c0a0c1"
+    }
+  }
+}
