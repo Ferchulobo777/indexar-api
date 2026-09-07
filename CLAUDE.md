@@ -47,6 +47,19 @@ experiencia de Boot 3.x, y las guías/foros viejos asumen los paths viejos):
   originalmente pidiendo Java 17 y hubo que subirlo — si algo no compila
   por versión de Java, revisar `java.version` en `pom.xml` primero.
 
+## Gotchas ya encontrados (para no perder tiempo redescubriéndolos)
+
+- **`@EnableCaching`/`@EnableScheduling` NO van en la clase `@SpringBootApplication`.**
+  `@WebMvcTest` usa esa clase como fuente de configuración y respeta cualquier
+  anotación declarada directamente sobre ella — un `@WebMvcTest` que no tiene
+  nada que ver con cache termina exigiendo un `CacheManager` igual. Van en
+  `config/AsyncConfig.java`, separados.
+- **Postgres `timestamptz` trunca a microsegundos; `Instant.now()` de Java trae
+  nanosegundos.** Un valor guardado y releído desde la base nunca es
+  `.equals()` al `Instant` original si no se trunca antes con
+  `.truncatedTo(ChronoUnit.MICROS)`. Afecta cualquier test que compare un
+  `Instant` contra lo que vuelve de una columna `timestamptz`.
+
 ## Principios de arquitectura (no negociables)
 
 1. **Idempotencia real, verificada con test** — no alcanza con documentar que

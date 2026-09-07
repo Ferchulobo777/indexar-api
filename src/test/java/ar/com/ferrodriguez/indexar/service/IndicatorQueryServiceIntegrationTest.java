@@ -21,6 +21,12 @@ import org.springframework.test.context.ActiveProfiles;
  * migraciones de Flyway (incluye el seed de series), y ejercita las queries JPQL
  * custom contra la base real. Esto es lo que valida que el esquema y las queries
  * realmente funcionan juntos — un mock nunca lo hubiera detectado.
+ *
+ * <p>Todos los {@link Instant} de este test se truncan a microsegundos con
+ * {@code truncatedTo(MICROS)}. Postgres {@code timestamptz} guarda microsegundos,
+ * pero {@code Instant.now()} trae nanosegundos — sin el truncado, el valor que
+ * vuelve de la base difiere del original en los últimos 3 dígitos y el test
+ * falla por un problema de precisión, no de lógica.</p>
  */
 @SpringBootTest
 @Import(TestcontainersConfiguration.class)
@@ -47,8 +53,8 @@ class IndicatorQueryServiceIntegrationTest {
     @Test
     void latestDevuelveElValorMasReciente() {
         var oficial = seriesRepository.findByCode("dolar-oficial").orElseThrow();
-        Instant hace2h = Instant.now().minus(2, ChronoUnit.HOURS);
-        Instant hace1h = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant hace2h = Instant.now().truncatedTo(ChronoUnit.MICROS).minus(2, ChronoUnit.HOURS);
+        Instant hace1h = Instant.now().truncatedTo(ChronoUnit.MICROS).minus(1, ChronoUnit.HOURS);
         valueRepository.save(new IndicatorValue(
                 oficial, hace2h, new BigDecimal("1000.00"), new BigDecimal("1040.00"), Instant.now()));
         valueRepository.save(new IndicatorValue(
@@ -63,15 +69,15 @@ class IndicatorQueryServiceIntegrationTest {
     @Test
     void historyRespetaElRangoDeFechas() {
         var blue = seriesRepository.findByCode("dolar-blue").orElseThrow();
-        Instant dentro = Instant.now().minus(3, ChronoUnit.HOURS);
-        Instant fuera = Instant.now().minus(10, ChronoUnit.DAYS);
+        Instant dentro = Instant.now().truncatedTo(ChronoUnit.MICROS).minus(3, ChronoUnit.HOURS);
+        Instant fuera = Instant.now().truncatedTo(ChronoUnit.MICROS).minus(10, ChronoUnit.DAYS);
         valueRepository.save(new IndicatorValue(
                 blue, dentro, new BigDecimal("1200.00"), new BigDecimal("1220.00"), Instant.now()));
         valueRepository.save(new IndicatorValue(
                 blue, fuera, new BigDecimal("1100.00"), new BigDecimal("1120.00"), Instant.now()));
 
         var history = queryService.history(
-                "dolar-blue", Instant.now().minus(1, ChronoUnit.DAYS), Instant.now());
+                "dolar-blue", Instant.now().truncatedTo(ChronoUnit.MICROS).minus(1, ChronoUnit.DAYS), Instant.now());
 
         assertThat(history).hasSize(1);
         assertThat(history.getFirst().observedAt()).isEqualTo(dentro);
