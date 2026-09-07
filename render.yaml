@@ -1,0 +1,25 @@
+# Render Blueprint — deploy en un click: Render lee este archivo al conectar
+# el repo (New > Blueprint) y crea el servicio con esta config, sin tocar nada
+# a mano en el dashboard salvo pegar la connection string de Postgres.
+#
+# Por qué Render + Neon y no Render Postgres: el Postgres gratis de Render
+# expira a los 30 días y se borra si no se pasa a un plan pago. Neon tiene
+# un tier gratis sin expiración para proyectos chicos — se usa Render solo
+# para correr la app, y Neon como base de datos persistente.
+
+services:
+  - type: web
+    name: indexar-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_URL
+        sync: false # se pega a mano en el dashboard: la connection string de Neon
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: PORT
+        value: 8080
