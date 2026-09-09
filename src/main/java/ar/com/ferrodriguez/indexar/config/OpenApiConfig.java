@@ -21,8 +21,8 @@ public class OpenApiConfig {
                         .version("v1")
                         .contact(new Contact()
                                 .name("Fernando Rodríguez")
-                                .url("https://portfolio-2026-fernando.vercel.app")
+                                .url("https://portfolio-2026-three-xi.vercel.app/trabajo/indexar-api")
                                 .email("ferchulobo2015@gmail.com"))
-                        .license(new License().name("MIT")));
+                        .license(new License().name("GPL-3.0").url("https://www.gnu.org/licenses/gpl-3.0.html")));
     }
 }
