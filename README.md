@@ -12,7 +12,7 @@ Cotizaciones del dólar (oficial, blue, MEP, CCL, cripto) ingeridas cada 15 minu
 [![Docker](https://img.shields.io/badge/Docker-multi--stage-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
 [![Testcontainers](https://img.shields.io/badge/Tested_with-Testcontainers-2496ED?style=for-the-badge&logo=testcontainers&logoColor=white)](https://testcontainers.com)
 
-**[🔗 Ver API en vivo](#)** &middot; **[📖 Swagger UI](#)**
+**[🔗 Ver API en vivo](#)** &middot; **[📖 Swagger UI](#)** &middot; **[📁 Caso de estudio en el portfolio](https://portfolio-2026-three-xi.vercel.app/trabajo/indexar-api)**
 
 </div>
 
